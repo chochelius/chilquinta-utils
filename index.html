@@ -18,6 +18,7 @@
             font-family: Consolas, Monaco, 'Courier New', monospace;
             font-size: 0.92rem;
             background-color: #f8f9fa;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -68,7 +69,7 @@
 
                 <!-- 3. Vista previa de la glosa generada -->
                 <div class="mb-3">
-                    <label for="glosaGenerada" class="form-label fw-semibold">Glosa resultante</label>
+                    <label for="glosaGenerada" class="form-label fw-semibold">Glosa resultante (MAYÚSCULAS)</label>
                     <textarea id="glosaGenerada" class="form-control" rows="3"></textarea>
                 </div>
 
@@ -91,7 +92,7 @@
                 caso: "GI Cerrada — Atención informativa general o consultas resueltas en línea durante la interacción.",
                 campos: [
                     { id: "motivo", label: "Motivo del llamado", placeholder: "Ej: Consulta saldo y fecha de vencimiento", col: "col-12" },
-                    { id: "firma", label: "Firma EAC", placeholder: "Ej: J. Cortés", col: "col-md-6", persist: true },
+                    { id: "firma", label: "Firma EAC", placeholder: "Ej: Juan Perez", col: "col-md-6", persist: true },
                     { id: "idLlamado", label: "ID llamado", placeholder: "Ej: 987654321", col: "col-md-6" }
                 ],
                 generar: (v) => `${v.motivo} // ${v.firma} // ${v.idLlamado}`
@@ -100,7 +101,7 @@
                 caso: "GI Cerrada — Registro de lectura del medidor informada por el cliente antes de la facturación.",
                 campos: [
                     { id: "lectura", label: "Lectura aportada (N°)", placeholder: "Ej: 14520", col: "col-md-4" },
-                    { id: "ejecutivo", label: "Nombre Ejecutivo", placeholder: "Ej: Jorge Cortés", col: "col-md-5", persist: true },
+                    { id: "ejecutivo", label: "Nombre Ejecutivo", placeholder: "Ej: Juana Perez", col: "col-md-5", persist: true },
                     { id: "anexo", label: "Anexo", placeholder: "Ej: 4120", col: "col-md-3", persist: true }
                 ],
                 generar: (v) => `Aporta lectura ${v.lectura}. ${v.ejecutivo} Anexo ${v.anexo}`
@@ -108,7 +109,7 @@
             gi_lectura_id: {
                 caso: "GI Cerrada — Registro alternativo de lectura del medidor informada por el cliente antes de la facturación.",
                 campos: [
-                    { id: "ejecutivo", label: "Nombre Ejecutivo", placeholder: "Ej: Jorge Cortés", col: "col-md-6", persist: true },
+                    { id: "ejecutivo", label: "Nombre Ejecutivo", placeholder: "Ej: Juan Perez", col: "col-md-6", persist: true },
                     { id: "idLlamado", label: "ID del llamado", placeholder: "Ej: 987654321", col: "col-md-6" }
                 ],
                 generar: (v) => `Lectura aportada, ${v.ejecutivo} // ${v.idLlamado}`
@@ -117,10 +118,10 @@
                 caso: "GI Cerrada (Causal: Facturación – Financiación) — Solicitud realizada únicamente por el titular o solicitante original.",
                 campos: [
                     { id: "motivo", label: "Motivo de la anulación", placeholder: "Ej: Cliente solicita pago total al contado", col: "col-12" },
-                    { id: "nombreCliente", label: "Nombre completo del cliente", placeholder: "Ej: María González Pérez", col: "col-md-6" },
+                    { id: "nombreCliente", label: "Nombre completo del cliente", placeholder: "Ej: Juana Perez", col: "col-md-6" },
                     { id: "rut", label: "RUT", placeholder: "Ej: 12.345.678-9", col: "col-md-6" },
                     { id: "fono", label: "Fono de contacto", placeholder: "Ej: 912345678", col: "col-md-4" },
-                    { id: "firma", label: "Firma / Ejecutivo", placeholder: "Ej: J. Cortés", col: "col-md-4", persist: true },
+                    { id: "firma", label: "Firma / Ejecutivo", placeholder: "Ej: Juan Perez", col: "col-md-4", persist: true },
                     { id: "idLlamado", label: "ID del llamado", placeholder: "Ej: 987654321", col: "col-md-4" }
                 ],
                 generar: (v) => `Motivo: ${v.motivo} / Nombre del cliente: ${v.nombreCliente} / RUT: ${v.rut} / Fono: ${v.fono} / ${v.firma} / ID del llamado: ${v.idLlamado}`
@@ -128,12 +129,12 @@
             gi_ed_nuevo: {
                 caso: "GI Abierta — Inscripción provisoria de paciente electrodependiente sin registro previo en sistema.",
                 campos: [
-                    { id: "paciente", label: "Paciente (Nombre - RUT)", placeholder: "Ej: Juan Pérez - 11.222.333-4", col: "col-md-6" },
-                    { id: "tutor", label: "Tutor (Nombre - RUT)", placeholder: "Ej: Ana Pérez - 15.666.777-8", col: "col-md-6" },
+                    { id: "paciente", label: "Paciente (Nombre - RUT)", placeholder: "Ej: Juana Perez - 11.222.333-4", col: "col-md-6" },
+                    { id: "tutor", label: "Tutor (Nombre - RUT)", placeholder: "Ej: Juan Perez - 15.666.777-8", col: "col-md-6" },
                     { id: "fono", label: "Fono", placeholder: "Ej: 912345678", col: "col-md-4" },
                     { id: "maquina", label: "Tipo de máquina", placeholder: "Ej: Concentrador de oxígeno", col: "col-md-4" },
                     { id: "autonomia", label: "Autonomía", placeholder: "Ej: 4 horas / Sin respaldo", col: "col-md-4" },
-                    { id: "firma", label: "Firma Ejecutivo", placeholder: "Ej: J. Cortés", col: "col-md-6", persist: true },
+                    { id: "firma", label: "Firma Ejecutivo", placeholder: "Ej: Juana Perez", col: "col-md-6", persist: true },
                     { id: "idLlamado", label: "ID llamada", placeholder: "Ej: 987654321", col: "col-md-6" }
                 ],
                 generar: (v) => `REGISTRO ELECTRODEPENDIENTE / PACIENTE: ${v.paciente} // TUTOR: ${v.tutor} // ${v.fono} // SE LEE ANEXO 3 // ${v.maquina} // ${v.autonomia} // ${v.firma} // ${v.idLlamado}`
@@ -141,10 +142,10 @@
             gi_ed_fallecido: {
                 caso: "GI Abierta — Registro de deceso de un paciente electrodependiente previamente empadronado.",
                 campos: [
-                    { id: "tutor", label: "Nombre y RUT tutor o quien llama", placeholder: "Ej: Ana Pérez - 15.666.777-8", col: "col-md-6" },
-                    { id: "paciente", label: "Nombre y RUT paciente fallecido", placeholder: "Ej: Juan Pérez - 11.222.333-4", col: "col-md-6" },
+                    { id: "tutor", label: "Nombre y RUT tutor o quien llama", placeholder: "Ej: Juan Perez - 15.666.777-8", col: "col-md-6" },
+                    { id: "paciente", label: "Nombre y RUT paciente fallecido", placeholder: "Ej: Juana Perez - 11.222.333-4", col: "col-md-6" },
                     { id: "fono", label: "Teléfono", placeholder: "Ej: 912345678", col: "col-md-4" },
-                    { id: "firma", label: "Firma", placeholder: "Ej: J. Cortés", col: "col-md-4", persist: true },
+                    { id: "firma", label: "Firma", placeholder: "Ej: Juan Perez", col: "col-md-4", persist: true },
                     { id: "idTpc", label: "ID o TPC", placeholder: "Ej: 987654321", col: "col-md-4" }
                 ],
                 generar: (v) => `Electrodependiente fallecido / Nombre y rut del tutor o de la persona que llama: ${v.tutor} / Nombre y rut del paciente fallecido: ${v.paciente} / Teléfono: ${v.fono} / ${v.firma} / ${v.idTpc}`
@@ -152,11 +153,11 @@
             gi_ed_domicilio: {
                 caso: "GI Abierta — Registro de cambio de domicilio de un paciente electrodependiente empadronado.",
                 campos: [
-                    { id: "contacto", label: "Nombre y RUT quien se contacta", placeholder: "Ej: Ana Pérez - 15.666.777-8", col: "col-md-6" },
-                    { id: "paciente", label: "Nombre y RUT Paciente", placeholder: "Ej: Juan Pérez - 11.222.333-4", col: "col-md-6" },
+                    { id: "contacto", label: "Nombre y RUT quien se contacta", placeholder: "Ej: Juana Perez - 15.666.777-8", col: "col-md-6" },
+                    { id: "paciente", label: "Nombre y RUT Paciente", placeholder: "Ej: Juan Perez - 11.222.333-4", col: "col-md-6" },
                     { id: "fono", label: "Teléfono", placeholder: "Ej: 912345678", col: "col-md-4" },
                     { id: "motivo", label: "Motivo", placeholder: "Ej: Traslado a nuevo domicilio", col: "col-md-8" },
-                    { id: "firma", label: "Firma", placeholder: "Ej: J. Cortés", col: "col-md-6", persist: true },
+                    { id: "firma", label: "Firma", placeholder: "Ej: Juana Perez", col: "col-md-6", persist: true },
                     { id: "idTpc", label: "ID o TPC", placeholder: "Ej: 987654321", col: "col-md-6" }
                 ],
                 generar: (v) => `Electrodependiente Cambio de Domicilio / nombre y Rut de persona que se contacta: ${v.contacto} / nombre y Rut Paciente: ${v.paciente} / Teléfono: ${v.fono} / Motivo: ${v.motivo} / ${v.firma} / ${v.idTpc}`
@@ -164,10 +165,10 @@
             gi_ed_alta: {
                 caso: "GI Abierta — Registro de alta médica de un paciente electrodependiente empadronado.",
                 campos: [
-                    { id: "tutor", label: "Nombre y RUT tutor o quien llama", placeholder: "Ej: Ana Pérez - 15.666.777-8", col: "col-md-6" },
-                    { id: "paciente", label: "Nombre y RUT paciente", placeholder: "Ej: Juan Pérez - 11.222.333-4", col: "col-md-6" },
+                    { id: "tutor", label: "Nombre y RUT tutor o quien llama", placeholder: "Ej: Juan Perez - 15.666.777-8", col: "col-md-6" },
+                    { id: "paciente", label: "Nombre y RUT paciente", placeholder: "Ej: Juana Perez - 11.222.333-4", col: "col-md-6" },
                     { id: "fono", label: "Teléfono", placeholder: "Ej: 912345678", col: "col-md-4" },
-                    { id: "firma", label: "Firma", placeholder: "Ej: J. Cortés", col: "col-md-4", persist: true },
+                    { id: "firma", label: "Firma", placeholder: "Ej: Juan Perez", col: "col-md-4", persist: true },
                     { id: "idTpc", label: "ID o TPC", placeholder: "Ej: 987654321", col: "col-md-4" }
                 ],
                 generar: (v) => `Electrodependiente / Nombre y rut del tutor o de la persona que llama: ${v.tutor} / Nombre y rut del paciente: ${v.paciente} / Teléfono: ${v.fono} / Motivo: ya no es electrodependiente (dado de alta médica, etc) / ${v.firma} / ${v.idTpc}`
@@ -176,7 +177,7 @@
                 caso: "GI Abierta (Back Office) — Solicitud de formulario para desconexión programada en Alta Tensión (AT).",
                 campos: [
                     { id: "datosCliente", label: "Datos Cliente", placeholder: "Ej: Empresa SpA / RUT / Fono / Correo", col: "col-12" },
-                    { id: "firma", label: "Firma EAC", placeholder: "Ej: J. Cortés", col: "col-md-6", persist: true },
+                    { id: "firma", label: "Firma EAC", placeholder: "Ej: Juana Perez", col: "col-md-6", persist: true },
                     { id: "idLlamado", label: "ID llamada", placeholder: "Ej: 987654321", col: "col-md-6" }
                 ],
                 generar: (v) => `BO/Solicita formulario DX / ${v.datosCliente} / ${v.firma} / ${v.idLlamado}`
@@ -185,7 +186,7 @@
                 caso: "GI Abierta (Back Office) — Recepción de documentos para desconexión programada en Alta Tensión (AT).",
                 campos: [
                     { id: "datosCliente", label: "Datos Cliente", placeholder: "Ej: Empresa SpA / RUT / Fono / Correo", col: "col-12" },
-                    { id: "firma", label: "Firma EAC", placeholder: "Ej: J. Cortés", col: "col-md-6", persist: true },
+                    { id: "firma", label: "Firma EAC", placeholder: "Ej: Juan Perez", col: "col-md-6", persist: true },
                     { id: "idLlamado", label: "ID llamada", placeholder: "Ej: 987654321", col: "col-md-6" }
                 ],
                 generar: (v) => `Formulario desconexión AT programada / ${v.datosCliente} / ${v.firma} / ${v.idLlamado}`
@@ -193,9 +194,9 @@
             gi_pago_no_abonado: {
                 caso: "GI Abierta — Regularización de comprobante de pago no reflejado en sistema tras superar 72 hrs.",
                 campos: [
-                    { id: "nombre", label: "Nombre", placeholder: "Ej: Carlos Muñoz", col: "col-md-6" },
+                    { id: "nombre", label: "Nombre", placeholder: "Ej: Juana Perez", col: "col-md-6" },
                     { id: "fono", label: "Fono", placeholder: "Ej: 912345678", col: "col-md-6" },
-                    { id: "firma", label: "Firma Ejecutivo", placeholder: "Ej: J. Cortés", col: "col-md-6", persist: true },
+                    { id: "firma", label: "Firma Ejecutivo", placeholder: "Ej: Juan Perez", col: "col-md-6", persist: true },
                     { id: "idLlamado", label: "ID de la llamada", placeholder: "Ej: 987654321", col: "col-md-6" }
                 ],
                 generar: (v) => `PAGO NO ABONADO / ${v.nombre} / ${v.fono} / ${v.firma} / ${v.idLlamado}`
@@ -204,9 +205,9 @@
                 caso: "GI Abierta — Regularización de pago abonado a un número de cliente incorrecto.",
                 campos: [
                     { id: "clientes", label: "Cliente correcto e incorrecto", placeholder: "Ej: Correcto: 123456 / Incorrecto: 654321", col: "col-12" },
-                    { id: "nombre", label: "Nombre", placeholder: "Ej: Carlos Muñoz", col: "col-md-6" },
+                    { id: "nombre", label: "Nombre", placeholder: "Ej: Juana Perez", col: "col-md-6" },
                     { id: "fono", label: "Fono", placeholder: "Ej: 912345678", col: "col-md-6" },
-                    { id: "firma", label: "Firma Ejecutivo", placeholder: "Ej: J. Cortés", col: "col-md-6", persist: true },
+                    { id: "firma", label: "Firma Ejecutivo", placeholder: "Ej: Juan Perez", col: "col-md-6", persist: true },
                     { id: "idLlamado", label: "ID de la llamada", placeholder: "Ej: 987654321", col: "col-md-6" }
                 ],
                 generar: (v) => `PAGO ERRÓNEO / ${v.clientes} / ${v.nombre} / ${v.fono} / ${v.firma} / ${v.idLlamado}`
@@ -214,11 +215,11 @@
             di_estandar: {
                 caso: "DI (Emergencia General) — Corte de suministro en domicilio, bajo voltaje, problema en empalme, líneas o postes.",
                 campos: [
-                    { id: "nombre", label: "Nombre", placeholder: "Ej: Pedro Soto", col: "col-md-6" },
+                    { id: "nombre", label: "Nombre", placeholder: "Ej: Juana Perez", col: "col-md-6" },
                     { id: "fono", label: "Fono", placeholder: "Ej: 912345678", col: "col-md-6" },
                     { id: "referencia", label: "Referencia domicilio", placeholder: "Ej: Frente a plaza, portón verde", col: "col-12" },
                     { id: "posibleCobro", label: "Posible cobro", placeholder: "Ej: Se informa posible cobro / No aplica", col: "col-md-6" },
-                    { id: "firma", label: "Nombre / Firma Ejecutivo", placeholder: "Ej: J. Cortés", col: "col-md-3", persist: true },
+                    { id: "firma", label: "Nombre / Firma Ejecutivo", placeholder: "Ej: Juan Perez", col: "col-md-3", persist: true },
                     { id: "idLlamado", label: "ID llamado", placeholder: "Ej: 987654321", col: "col-md-3" }
                 ],
                 generar: (v) => `${v.nombre} / ${v.fono} / ${v.referencia} / ${v.posibleCobro} / ${v.firma} / ${v.idLlamado}`
@@ -226,11 +227,11 @@
             di_ed_sin_asistencia: {
                 caso: "DI Causal 184 — Paciente electrodependiente sin energía eléctrica que NO requiere asistencia adicional inmediata.",
                 campos: [
-                    { id: "nombreLlama", label: "Nombre de quien llama", placeholder: "Ej: Laura Díaz", col: "col-md-6" },
+                    { id: "nombreLlama", label: "Nombre de quien llama", placeholder: "Ej: Juana Perez", col: "col-md-6" },
                     { id: "fono", label: "Fono", placeholder: "Ej: 912345678", col: "col-md-6" },
                     { id: "referencia", label: "Referencia", placeholder: "Ej: Casa esquina, reja negra", col: "col-md-6" },
                     { id: "autonomiaMaquina", label: "Autonomía y máquina", placeholder: "Ej: 6 hrs / Concentrador", col: "col-md-6" },
-                    { id: "ejecutivo", label: "Nombre del Ejecutivo", placeholder: "Ej: Jorge Cortés", col: "col-md-6", persist: true },
+                    { id: "ejecutivo", label: "Nombre del Ejecutivo", placeholder: "Ej: Juan Perez", col: "col-md-6", persist: true },
                     { id: "idLlamado", label: "ID del llamado", placeholder: "Ej: 987654321", col: "col-md-6" }
                 ],
                 generar: (v) => `Electrodependiente: ${v.nombreLlama} / ${v.fono} / ${v.referencia} / ${v.autonomiaMaquina} / Se entregan medidas de seguridad / Atte. ${v.ejecutivo} y ${v.idLlamado}`
@@ -238,11 +239,11 @@
             di_ed_con_asistencia: {
                 caso: "Ingresar 2 DI (Causal 184 Sin energía + Causal 3769 Gestión Electrodependiente) — Paciente sin suministro y quedándose sin autonomía.",
                 campos: [
-                    { id: "nombreLlama", label: "Nombre de quien llama", placeholder: "Ej: Laura Díaz", col: "col-md-6" },
+                    { id: "nombreLlama", label: "Nombre de quien llama", placeholder: "Ej: Juana Perez", col: "col-md-6" },
                     { id: "fono", label: "Fono", placeholder: "Ej: 912345678", col: "col-md-6" },
                     { id: "referencia", label: "Referencia", placeholder: "Ej: Casa esquina, reja negra", col: "col-md-6" },
                     { id: "autonomiaMaquina", label: "Autonomía y máquina", placeholder: "Ej: Sin autonomía / Ventilador", col: "col-md-6" },
-                    { id: "ejecutivo", label: "Nombre del Ejecutivo", placeholder: "Ej: Jorge Cortés", col: "col-md-6", persist: true },
+                    { id: "ejecutivo", label: "Nombre del Ejecutivo", placeholder: "Ej: Juan Perez", col: "col-md-6", persist: true },
                     { id: "idLlamado", label: "ID del llamado", placeholder: "Ej: 987654321", col: "col-md-6" }
                 ],
                 generar: (v) => `Electrodependiente: ${v.nombreLlama} / ${v.fono} / ${v.referencia} / ${v.autonomiaMaquina} / Se entregan medidas de seguridad / Atte. ${v.ejecutivo} y ${v.idLlamado}`
@@ -250,11 +251,11 @@
             di_ed_recarga: {
                 caso: "DI Causal 3769 — Entrega o recarga de combustible/gas para generadores o revisión de respaldos.",
                 campos: [
-                    { id: "nombreLlama", label: "Nombre de quien llama", placeholder: "Ej: Laura Díaz", col: "col-md-6" },
+                    { id: "nombreLlama", label: "Nombre de quien llama", placeholder: "Ej: Juana Perez", col: "col-md-6" },
                     { id: "fono", label: "Fono", placeholder: "Ej: 912345678", col: "col-md-6" },
                     { id: "estadoAutonomia", label: "Con / Sin autonomía", placeholder: "Ej: Sin autonomía", col: "col-md-5" },
                     { id: "detalleAsistencia", label: "Tipo asistencia (combustible, gas, batería)", placeholder: "Ej: recarga de combustible", col: "col-md-7" },
-                    { id: "firma", label: "Firma", placeholder: "Ej: J. Cortés", col: "col-md-6", persist: true },
+                    { id: "firma", label: "Firma", placeholder: "Ej: Juan Perez", col: "col-md-6", persist: true },
                     { id: "idLlamado", label: "ID de llamada", placeholder: "Ej: 987654321", col: "col-md-6" }
                 ],
                 generar: (v) => `Electro / ${v.nombreLlama} / Fono: ${v.fono} / ${v.estadoAutonomia}, cliente solicita asistencia (${v.detalleAsistencia}) / ${v.firma} / ${v.idLlamado}`
@@ -320,11 +321,18 @@
                 valores[campo.id] = val || `[${campo.label}]`;
             });
 
-            txtGlosa.value = config.generar(valores);
+            txtGlosa.value = config.generar(valores).toLocaleUpperCase("es-CL");
         }
 
+        txtGlosa.addEventListener("input", () => {
+            const pos = txtGlosa.selectionStart;
+            txtGlosa.value = txtGlosa.value.toLocaleUpperCase("es-CL");
+            txtGlosa.setSelectionRange(pos, pos);
+        });
+
         btnCopiar.addEventListener("click", async () => {
-            const texto = txtGlosa.value;
+            const texto = txtGlosa.value.toLocaleUpperCase("es-CL");
+            txtGlosa.value = texto;
             try {
                 await navigator.clipboard.writeText(texto);
             } catch {
