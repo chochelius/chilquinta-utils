@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Glosas OSF v1.2</title>
+    <title>Generador de Glosas OSF v1.3</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -12,13 +12,29 @@
         }
         .form-container {
             width: 100%;
-            max-width: 680px;
+            max-width: 720px;
         }
         #glosaGenerada {
             font-family: Consolas, Monaco, 'Courier New', monospace;
             font-size: 0.92rem;
             background-color: #f8f9fa;
             text-transform: uppercase;
+        }
+        .campo-pendiente {
+            border-color: #ea868f !important;
+            background-color: #fffafa;
+        }
+        .campo-pendiente:focus {
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15) !important;
+        }
+        .campo-completo {
+            border-color: #198754 !important;
+        }
+        .campo-completo:focus {
+            box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15) !important;
+        }
+        .shortcut-hint {
+            font-size: 0.78rem;
         }
     </style>
 </head>
@@ -28,32 +44,44 @@
     <div class="form-container card shadow-sm border-0">
         <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Generador de glosas OSF</h5>
-            <span id="appVersion" class="badge bg-light text-primary fw-semibold">v1.2</span>
+            <span id="appVersion" class="badge bg-light text-primary fw-semibold">v1.3</span>
         </div>
 
         <div class="card-body p-4">
             <form id="glosaForm" autocomplete="off">
-                <!-- 1. Selección de tipo de glosa -->
-                <div class="mb-3">
-                    <label for="tipoGlosa" class="form-label fw-semibold">Tipo de Glosa</label>
+                <!-- 1. Filtro rápido y selección de tipo de glosa -->
+                <div class="mb-2">
+                    <label for="filtroGlosa" class="form-label fw-semibold mb-1">Buscar y seleccionar Tipo de Glosa</label>
+                    <div class="input-group input-group-sm mb-2">
+                        <span class="input-group-text bg-white">🔍</span>
+                        <input type="text" id="filtroGlosa" class="form-control" placeholder="Filtrar glosa (ej: lectura, CNR, empalme, retiro, reposición, electro...)">
+                        <button type="button" id="btnLimpiarFiltro" class="btn btn-outline-secondary" title="Limpiar búsqueda">✕</button>
+                    </div>
                     <select id="tipoGlosa" class="form-select">
                         <optgroup label="1. Gestión de Interacción (GI)">
                             <option value="gi_estandar">A. GI Estándar (Atención General)</option>
-                            <option value="gi_lectura">B. Ingreso de Lectura Aportada</option>
+                            <option value="gi_lectura">B. Ingreso de Lectura Aportada (PELAP - GI Cerrada)</option>
                             <option value="gi_financiacion">C. Ingreso de Financiación / Convenio de Deuda</option>
                             <option value="gi_anulacion_fin">D. Anulación de Financiación / Convenio</option>
                             <option value="gi_tramites_admin">E. Cambio de Dirección / Titular / Trámites Administrativos</option>
-                            <option value="gi_ed_nuevo">F. Registro Electrodependiente NO Registrado (Provisorio)</option>
-                            <option value="gi_ed_emergencia">G. Emergencia / Cliente Electrodependiente (GI Abierta)</option>
-                            <option value="gi_ed_fallecido">H1. Electrodependiente — Paciente Fallecido</option>
-                            <option value="gi_ed_domicilio">H2. Electrodependiente — Cambio de Domicilio</option>
-                            <option value="gi_ed_alta">H3. Electrodependiente — Alta Médica / Ya no es ED</option>
-                            <option value="gi_at_paso1">I1. Desconexión Programada AT — Paso 1 (Solicitud Formulario)</option>
-                            <option value="gi_at_paso2">I2. Desconexión Programada AT — Paso 2 (Recepción Documentos)</option>
-                            <option value="gi_pago_no_abonado">J1. Pago No Abonado (Supera 72 hrs)</option>
-                            <option value="gi_pago_erroneo">J2. Pago Erróneo / Traslado de Pago</option>
+                            <option value="gi_regularizacion_retiro">F. Regularización de Retiros de Servicio (Retiro Definitivo)</option>
+                            <option value="gi_ed_nuevo">G. Registro Electrodependiente NO Registrado (Provisorio)</option>
+                            <option value="gi_ed_emergencia">H. Emergencia / Cliente Electrodependiente (GI Abierta)</option>
+                            <option value="gi_ed_fallecido">I1. Electrodependiente — Paciente Fallecido</option>
+                            <option value="gi_ed_domicilio">I2. Electrodependiente — Cambio de Domicilio</option>
+                            <option value="gi_ed_alta">I3. Electrodependiente — Alta Médica / Ya no es ED</option>
+                            <option value="gi_at_paso1">J1. Desconexión Programada AT — Paso 1 (Solicitud Formulario)</option>
+                            <option value="gi_at_paso2">J2. Desconexión Programada AT — Paso 2 (Recepción Documentos)</option>
+                            <option value="gi_pago_no_abonado">K1. Pago No Abonado (Supera 72 hrs)</option>
+                            <option value="gi_pago_erroneo">K2. Pago Erróneo / Traslado de Pago</option>
                         </optgroup>
-                        <optgroup label="2. Daño Individual (DI / Emergencia)">
+                        <optgroup label="2. Reclamos, Quejas y Recurso de Reposición">
+                            <option value="reclamo_lectura">A. Reclamo por Cargos — Error / Estimación de Lectura</option>
+                            <option value="reclamo_cnr">B. Reclamo por Cargos — Consumo No Registrado CNR (Causal 3347)</option>
+                            <option value="queja_demora_empalme">C. Queja — Demora en Construcción / Instalación Empalme (Causal 3508)</option>
+                            <option value="gi_recurso_reposicion">D. Recurso de Reposición (RR)</option>
+                        </optgroup>
+                        <optgroup label="3. Daño Individual (DI / Emergencia)">
                             <option value="di_estandar">A. Daño Individual Estándar (Emergencia General)</option>
                             <option value="di_ed_sin_asistencia">B. DI Electrodependiente — Sin Asistencia (Causal 184)</option>
                             <option value="di_ed_con_asistencia">C. DI Electrodependiente — Con Asistencia / Sin Autonomía (2 DI)</option>
@@ -63,7 +91,10 @@
                 </div>
 
                 <!-- Caso de aplicación -->
-                <div id="casoAplicacion" class="alert alert-info py-2 px-3 small mb-3"></div>
+                <div id="casoAplicacion" class="alert alert-secondary py-2 px-3 small mb-2"></div>
+
+                <!-- Alerta normativa / Script obligatorio -->
+                <div id="alertaScript" class="alert py-2 px-3 small mb-3 d-none" role="alert"></div>
 
                 <!-- 2. Campos dinámicos según la glosa elegida -->
                 <div id="camposDinamicos" class="row g-3 mb-3"></div>
@@ -72,7 +103,10 @@
 
                 <!-- 3. Vista previa de la glosa generada -->
                 <div class="mb-3">
-                    <label for="glosaGenerada" class="form-label fw-semibold">Glosa resultante (MAYÚSCULAS)</label>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label for="glosaGenerada" class="form-label fw-semibold mb-0">Glosa resultante (MAYÚSCULAS)</label>
+                        <span class="text-muted shortcut-hint">Atajos: <kbd>Enter</kbd> en último campo o <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd></span>
+                    </div>
                     <textarea id="glosaGenerada" class="form-control" rows="3"></textarea>
                 </div>
 
@@ -96,6 +130,32 @@
             "INFORMADO BT $19500+MATERIAL"
         ];
 
+        const ALERTAS_CALIDAD = {
+            financiacion: {
+                clase: "alert-warning",
+                texto: "⚠️ Script obligatorio: Confirmar monto del pie, número de cuotas y obtener respuesta afirmativa explícita del cliente. Recuerda adjuntar la validación del Registro Civil (CI) en OSF."
+            },
+            sec: {
+                clase: "alert-primary",
+                texto: "📢 Lectura obligatoria: Leer Carta de Confirmación de Reclamos SEC (Informar plazo máximo de 30 días corridos y derecho a acudir a la SEC)."
+            }
+        };
+
+        function formatRut(rut) {
+            let valor = rut.replace(/[^0-9kK]/g, '').toUpperCase();
+            if (valor.length < 2) return valor;
+            let cuerpo = valor.slice(0, -1);
+            let dv = valor.slice(-1);
+            return cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "-" + dv;
+        }
+
+        function normalizarTexto(texto) {
+            return texto
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
         const GLOSAS = {
             gi_estandar: {
                 caso: "GI Cerrada — Atención informativa general o consultas resueltas en línea durante la interacción.",
@@ -107,42 +167,47 @@
                 generar: (v) => `${v.motivo} // ${v.firma} // ${v.idLlamado}`
             },
             gi_lectura: {
-                caso: "GI Cerrada — Registro de lectura del medidor informada por el cliente antes de la facturación.",
+                caso: "GI Cerrada (PELAP) — Registro de lectura aportada por el cliente antes de la facturación (indicar valor y fecha del aporte).",
                 campos: [
+                    { id: "lectura", label: "Valor de la Lectura (N°)", placeholder: "Ej: 15420", col: "col-md-6" },
+                    { id: "fechaAporte", label: "Fecha de Toma/Aporte", placeholder: "Ej: 27/11/2026", col: "col-md-6" },
                     { id: "ejecutivo", label: "Nombre Ejecutivo", placeholder: "Ej: Juana Perez", col: "col-md-6", persist: true },
                     { id: "idLlamado", label: "ID del llamado", placeholder: "Ej: 987654321", col: "col-md-6" }
                 ],
-                generar: (v) => `Lectura aportada, ${v.ejecutivo} // ${v.idLlamado}`
+                generar: (v) => `APORTA LECTURA ${v.lectura} TOMADA EL DÍA ${v.fechaAporte} // ${v.ejecutivo} // ${v.idLlamado}`
             },
             gi_financiacion: {
                 caso: "Observación obligatoria de Financiación / Convenio de Deuda en OSF.",
+                alerta: "financiacion",
                 campos: [
-                    { id: "clienteRut", label: "Nombre del cliente y RUT", placeholder: "Ej: Juan Perez 12.345.678-9", col: "col-md-6" },
+                    { id: "nombreCliente", label: "Nombre del cliente", placeholder: "Ej: Juan Perez", col: "col-md-6" },
+                    { id: "rut", label: "RUT cliente", placeholder: "Ej: 12.345.678-9", col: "col-md-6", isRut: true },
                     { id: "cuotasPie", label: "Cuotas y pie", placeholder: "Ej: 6 cuotas / $25.000 pie", col: "col-md-6" },
                     {
                         id: "subsidio",
                         label: "Condición de subsidio",
                         type: "select",
                         options: ["SIN SUBSIDIO", "CON SUBSIDIO"],
-                        col: "col-md-6"
+                        col: "col-md-3"
                     },
                     {
                         id: "convenioCovid",
                         label: "Convenio COVID",
                         type: "select",
                         options: ["SIN CONVENIO COVID", "CON CONVENIO COVID"],
-                        col: "col-md-6"
+                        col: "col-md-3"
                     },
                     { id: "ejecutivo", label: "Nombre quien ingresa", placeholder: "Ej: Juana Perez", col: "col-12", persist: true }
                 ],
-                generar: (v) => `${v.clienteRut} / ${v.cuotasPie} / ${v.subsidio} / ${v.convenioCovid} / ${v.ejecutivo}`
+                generar: (v) => `${v.nombreCliente} ${v.rut} / ${v.cuotasPie} / ${v.subsidio} / ${v.convenioCovid} / ${v.ejecutivo}`
             },
             gi_anulacion_fin: {
                 caso: "GI Cerrada (Causal: Facturación – Financiación) — Solicitud realizada únicamente por el titular o solicitante original.",
+                alerta: "financiacion",
                 campos: [
                     { id: "motivo", label: "Motivo de la anulación", placeholder: "Ej: Cliente solicita pago total al contado", col: "col-12" },
                     { id: "nombreCliente", label: "Nombre completo del cliente", placeholder: "Ej: Juan Perez", col: "col-md-6" },
-                    { id: "rut", label: "RUT", placeholder: "Ej: 12.345.678-9", col: "col-md-6" },
+                    { id: "rut", label: "RUT", placeholder: "Ej: 12.345.678-9", col: "col-md-6", isRut: true },
                     { id: "fono", label: "Fono de contacto (y anexo si aplica)", placeholder: "Ej: 912345678 / Anexo 102", col: "col-md-4" },
                     { id: "firma", label: "Firma / Ejecutivo", placeholder: "Ej: Juana Perez", col: "col-md-4", persist: true },
                     { id: "idLlamado", label: "ID del llamado", placeholder: "Ej: 987654321", col: "col-md-4" }
@@ -163,6 +228,17 @@
                     }
                 ],
                 generar: (v) => `Adjunta ${v.documentos} / GI ABIERTA N° ${v.numeroGi} / Derivado a ${v.destino}`
+            },
+            gi_regularizacion_retiro: {
+                caso: "GI Abierta — Entrega de N° de gestión para normalizar suministro retirado y carga de documentos en web (www.chilquinta.cl > Cambios y trámites).",
+                campos: [
+                    { id: "rut", label: "RUT solicitante", placeholder: "Ej: 12.345.678-9", col: "col-md-4", isRut: true },
+                    { id: "fono", label: "Fono (y anexo si aplica)", placeholder: "Ej: 912345678", col: "col-md-4" },
+                    { id: "numeroGi", label: "N° GI Abierta", placeholder: "Ej: 45678912", col: "col-md-4" },
+                    { id: "firma", label: "Firma Ejecutivo", placeholder: "Ej: Juan Perez", col: "col-md-6", persist: true },
+                    { id: "idLlamado", label: "ID llamado", placeholder: "Ej: 987654321", col: "col-md-6" }
+                ],
+                generar: (v) => `SOLICITA REGULARIZACIÓN DE RETIRO DEFINITIVO / RUT: ${v.rut} / FONO: ${v.fono} / SE ENTREGA GI ABIERTA N° ${v.numeroGi} PARA CARGA WEB EN CAMBIOS Y TRÁMITES / ${v.firma} / ${v.idLlamado}`
             },
             gi_ed_nuevo: {
                 caso: "GI Abierta — Inscripción provisoria de paciente electrodependiente sin registro previo en sistema.",
@@ -191,9 +267,9 @@
                     },
                     { id: "supervisor", label: "Notificado a Supervisor", placeholder: "Ej: Juana Perez", col: "col-md-4" },
                     { id: "numeroGi", label: "GI ABIERTA N°", placeholder: "Ej: 45678912", col: "col-md-4" },
-                    { id: "recarga", label: "Recarga Combustible Filiales Centro (opcional)", placeholder: "Ej: No aplica / Solicita recarga", col: "col-12" }
+                    { id: "recarga", label: "Recarga Combustible Filiales Centro (opcional)", placeholder: "Ej: No aplica / Solicita recarga", col: "col-12", optional: true }
                 ],
-                generar: (v) => `Paciente: ${v.paciente} / Autonomía: ${v.autonomia} / Registro OSF: ${v.registroOsf} / Notificado a Supervisor: ${v.supervisor} / GI ABIERTA N° ${v.numeroGi} / ${v.recarga}`
+                generar: (v) => `Paciente: ${v.paciente} / Autonomía: ${v.autonomia} / Registro OSF: ${v.registroOsf} / Notificado a Supervisor: ${v.supervisor} / GI ABIERTA N° ${v.numeroGi}${v.recarga ? ` / ${v.recarga}` : ""}`
             },
             gi_ed_fallecido: {
                 caso: "GI Abierta — Registro de deceso de un paciente electrodependiente previamente empadronado.",
@@ -268,6 +344,48 @@
                 ],
                 generar: (v) => `PAGO ERRÓNEO / ${v.clientes} / ${v.nombre} / ${v.fono} / ${v.firma} / ${v.idLlamado}`
             },
+            reclamo_lectura: {
+                caso: "Reclamo por Cargos (Causales 3502 / 3503) — Cliente objeta boleta ya facturada por error o estimación de lectura.",
+                alerta: "sec",
+                campos: [
+                    { id: "lectura", label: "N° Lectura aportada", placeholder: "Ej: 15420", col: "col-md-6" },
+                    { id: "fechaAporte", label: "Fecha de aporte", placeholder: "Ej: 27/11/2026", col: "col-md-6" },
+                    { id: "ejecutivo", label: "Nombre Ejecutivo", placeholder: "Ej: Juan Perez", col: "col-md-6", persist: true },
+                    { id: "idLlamado", label: "ID llamado", placeholder: "Ej: 987654321", col: "col-md-6" }
+                ],
+                generar: (v) => `CLIENTE OBJETA COBRO DE SU BOLETA POR LECTURA, APORTA LECTURA DE ${v.lectura} TOMADA EL DÍA ${v.fechaAporte} // SE LEE CARTA CONFIRMACIÓN // ${v.ejecutivo} // ${v.idLlamado}`
+            },
+            reclamo_cnr: {
+                caso: "Reclamo por Cargos (Causal 3347) — Cliente objeta cobro de Consumo No Registrado (CNR) facturado en su boleta tras inspección.",
+                alerta: "sec",
+                campos: [
+                    { id: "boleta", label: "N° de Boleta/Factura afectada", placeholder: "Ej: 71872020", col: "col-md-5" },
+                    { id: "detalle", label: "Motivo de disconformidad", placeholder: "Ej: Indica que medidor siempre estuvo accesible", col: "col-md-7" },
+                    { id: "firma", label: "Firma Ejecutivo", placeholder: "Ej: Juana Perez", col: "col-md-6", persist: true },
+                    { id: "idLlamado", label: "ID llamado", placeholder: "Ej: 987654321", col: "col-md-6" }
+                ],
+                generar: (v) => `CLIENTE OBJETA COBRO DE CNR FACTURADO EN BOLETA N° ${v.boleta} // DETALLE: ${v.detalle} // SE LEE CARTA SEC // ${v.firma} // ${v.idLlamado}`
+            },
+            queja_demora_empalme: {
+                caso: "Queja (Causal 3508) — Incumplimiento de plazos reglamentarios en construcción o instalación de empalme.",
+                alerta: "sec",
+                campos: [
+                    { id: "correo", label: "Correo o indica sin correo", placeholder: "Ej: cliente@correo.cl / SIN CORREO", col: "col-12" },
+                    { id: "firma", label: "Firma Ejecutivo", placeholder: "Ej: Juan Perez", col: "col-md-6", persist: true },
+                    { id: "idLlamado", label: "ID llamado", placeholder: "Ej: 987654321", col: "col-md-6" }
+                ],
+                generar: (v) => `CLIENTE INFORMA QUE PLAZOS DE CONSTRUCCIÓN DE EMPALME NO SE HAN CUMPLIDO // CORREO: ${v.correo} // SE LEE CARTA // ${v.firma} // ${v.idLlamado}`
+            },
+            gi_recurso_reposicion: {
+                caso: "Recurso de Reposición (RR) — Solicitud en estado Atendido donde el cliente objeta la respuesta previa entregada.",
+                alerta: "sec",
+                campos: [
+                    { id: "correo", label: "Correo de respuesta", placeholder: "Ej: cliente@correo.cl / SIN CORREO", col: "col-12" },
+                    { id: "firma", label: "Firma Ejecutivo", placeholder: "Ej: Juana Perez", col: "col-md-6", persist: true },
+                    { id: "idLlamado", label: "ID llamado", placeholder: "Ej: 987654321", col: "col-md-6" }
+                ],
+                generar: (v) => `CLIENTE NO ESTÁ DE ACUERDO CON LA RESPUESTA DE LA QUEJA, REQUIERE NUEVA REVISIÓN DE SUS ARTEFACTOS // CORREO ${v.correo} // SE LEE CARTA // ${v.firma} / ${v.idLlamado}`
+            },
             di_estandar: {
                 caso: "DI (Emergencia General) — Corte de suministro en domicilio, bajo voltaje, problema en empalme, líneas o postes.",
                 campos: [
@@ -324,19 +442,75 @@
             }
         };
 
+        const inputFiltro = document.getElementById("filtroGlosa");
+        const btnLimpiarFiltro = document.getElementById("btnLimpiarFiltro");
         const selectTipo = document.getElementById("tipoGlosa");
         const divCaso = document.getElementById("casoAplicacion");
+        const divAlertaScript = document.getElementById("alertaScript");
         const divCampos = document.getElementById("camposDinamicos");
         const txtGlosa = document.getElementById("glosaGenerada");
         const btnCopiar = document.getElementById("btnCopiar");
         const btnLimpiar = document.getElementById("btnLimpiar");
 
+        function filtrarOpciones() {
+            const termino = normalizarTexto(inputFiltro.value.trim());
+            const optgroups = selectTipo.querySelectorAll("optgroup");
+            let primeraVisible = null;
+            let actualSigueVisible = false;
+
+            optgroups.forEach((group) => {
+                const opciones = group.querySelectorAll("option");
+                let visiblesEnGrupo = 0;
+
+                opciones.forEach((opt) => {
+                    const config = GLOSAS[opt.value];
+                    const textoBuscable = normalizarTexto(`${opt.textContent} ${config ? config.caso : ""}`);
+                    const coincide = !termino || textoBuscable.includes(termino);
+
+                    opt.hidden = !coincide;
+                    if (coincide) {
+                        visiblesEnGrupo++;
+                        if (!primeraVisible) primeraVisible = opt;
+                        if (opt.value === selectTipo.value) actualSigueVisible = true;
+                    }
+                });
+
+                group.hidden = visiblesEnGrupo === 0;
+            });
+
+            if (!actualSigueVisible && primeraVisible) {
+                selectTipo.value = primeraVisible.value;
+                renderizarFormulario();
+            }
+        }
+
+        function actualizarEstadoVisualInput(input, opcional) {
+            if (opcional) {
+                input.classList.remove("campo-pendiente", "campo-completo");
+                return;
+            }
+            const tieneValor = input.value.trim().length > 0;
+            input.classList.toggle("campo-completo", tieneValor);
+            input.classList.toggle("campo-pendiente", !tieneValor);
+        }
+
         function renderizarFormulario() {
             const config = GLOSAS[selectTipo.value];
             divCaso.textContent = config.caso;
+
+            // Alerta visual de pauta de calidad
+            if (config.alerta && ALERTAS_CALIDAD[config.alerta]) {
+                const alerta = ALERTAS_CALIDAD[config.alerta];
+                divAlertaScript.className = `alert ${alerta.clase} py-2 px-3 small mb-3 fw-medium`;
+                divAlertaScript.textContent = alerta.texto;
+            } else {
+                divAlertaScript.className = "alert py-2 px-3 small mb-3 d-none";
+                divAlertaScript.textContent = "";
+            }
+
             divCampos.innerHTML = "";
 
-            config.campos.forEach((campo) => {
+            config.campos.forEach((campo, idx) => {
                 const col = document.createElement("div");
                 col.className = campo.col || "col-12";
 
@@ -349,7 +523,7 @@
 
                 if (campo.type === "select") {
                     control = document.createElement("select");
-                    control.className = "form-select form-select-sm";
+                    control.className = "form-select form-select-sm campo-completo";
                     campo.options.forEach((optText) => {
                         const opt = document.createElement("option");
                         opt.value = optText;
@@ -368,17 +542,34 @@
                         if (guardado) control.value = guardado;
                     }
 
+                    actualizarEstadoVisualInput(control, campo.optional);
+
                     control.addEventListener("input", () => {
+                        if (campo.isRut) {
+                            control.value = formatRut(control.value);
+                        }
                         if (campo.persist) {
                             localStorage.setItem(`osf_${campo.id}`, control.value);
                         }
+                        actualizarEstadoVisualInput(control, campo.optional);
                         actualizarGlosa();
+                    });
+                }
+
+                // Copiar al presionar Enter en el último campo
+                if (idx === config.campos.length - 1) {
+                    control.addEventListener("keydown", (e) => {
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            copiarGlosa();
+                        }
                     });
                 }
 
                 control.id = `campo_${campo.id}`;
                 control.dataset.campoId = campo.id;
                 control.dataset.persist = campo.persist ? "true" : "false";
+                control.dataset.optional = campo.optional ? "true" : "false";
 
                 col.appendChild(label);
                 col.appendChild(control);
@@ -395,19 +586,17 @@
             config.campos.forEach((campo) => {
                 const control = document.getElementById(`campo_${campo.id}`);
                 const val = control ? control.value.trim() : "";
-                valores[campo.id] = val || `[${campo.label}]`;
+                if (campo.optional) {
+                    valores[campo.id] = val;
+                } else {
+                    valores[campo.id] = val || `[${campo.label}]`;
+                }
             });
 
             txtGlosa.value = config.generar(valores).toLocaleUpperCase("es-CL");
         }
 
-        txtGlosa.addEventListener("input", () => {
-            const pos = txtGlosa.selectionStart;
-            txtGlosa.value = txtGlosa.value.toLocaleUpperCase("es-CL");
-            txtGlosa.setSelectionRange(pos, pos);
-        });
-
-        btnCopiar.addEventListener("click", async () => {
+        async function copiarGlosa() {
             const texto = txtGlosa.value.toLocaleUpperCase("es-CL");
             txtGlosa.value = texto;
             try {
@@ -424,7 +613,15 @@
                 btnCopiar.textContent = textoOriginal;
                 btnCopiar.classList.replace("btn-success", "btn-primary");
             }, 1500);
+        }
+
+        txtGlosa.addEventListener("input", () => {
+            const pos = txtGlosa.selectionStart;
+            txtGlosa.value = txtGlosa.value.toLocaleUpperCase("es-CL");
+            txtGlosa.setSelectionRange(pos, pos);
         });
+
+        btnCopiar.addEventListener("click", copiarGlosa);
 
         btnLimpiar.addEventListener("click", () => {
             const controles = divCampos.querySelectorAll("input, select");
@@ -435,12 +632,35 @@
                     ctrl.selectedIndex = 0;
                 } else if (ctrl.dataset.persist !== "true") {
                     ctrl.value = "";
+                    actualizarEstadoVisualInput(ctrl, ctrl.dataset.optional === "true");
                     if (!primerControlLimpio) primerControlLimpio = ctrl;
                 }
             });
 
             actualizarGlosa();
             if (primerControlLimpio) primerControlLimpio.focus();
+        });
+
+        inputFiltro.addEventListener("input", filtrarOpciones);
+        inputFiltro.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                inputFiltro.value = "";
+                filtrarOpciones();
+            }
+        });
+
+        btnLimpiarFiltro.addEventListener("click", () => {
+            inputFiltro.value = "";
+            filtrarOpciones();
+            inputFiltro.focus();
+        });
+
+        // Atajo global Ctrl + Shift + C para copiado rápido
+        document.addEventListener("keydown", (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toUpperCase() === "C") {
+                e.preventDefault();
+                copiarGlosa();
+            }
         });
 
         selectTipo.addEventListener("change", renderizarFormulario);
